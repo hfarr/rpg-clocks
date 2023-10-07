@@ -1,7 +1,17 @@
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: #666;
+}
+body > div {
+  display: flex;
+  justify-content: center;
+  /* margin-left: auto; */
 }
 
 div {
-  background-color:thistle;
+  /* background-color:thistle; */
 }
