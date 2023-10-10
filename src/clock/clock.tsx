@@ -1,28 +1,7 @@
 import * as React from "react"
 import * as _ from "lodash"
 
-type SegmentProps = {
-  active: boolean
-  segmentNumber: number
-  onClick: () => void
-
-  // temp
-  sideLength?: string 
-}
-const Segment = (props: SegmentProps) => {
-  const {
-    active,
-    sideLength = "50px",
-    segmentNumber,
-    onClick,
-  } = props
-  const backgroundColor = active ? "#00aa55" : "#333"
-  return <div data-cl={active} 
-    className="segment"
-    style={{ width: sideLength, height: sideLength, backgroundColor, '--i': segmentNumber } as React.CSSProperties}
-    onClick={onClick}>
-  </div>
-}
+import { Segment } from "./segment"
 
 type ClockProps = {
   segments: number,
@@ -31,7 +10,6 @@ type ClockProps = {
   name?: number,
   color?: string
 }
-
 
 const MINIMUM_CLOCK_SEGMENTS = 2;
 
@@ -58,17 +36,6 @@ const Clock = (props: ClockProps) => {
 
   const updateProgress = (segmentNumber: number) => {
 
-    // progress = 2
-    // x  x
-    // 0, 1, 2, 3, 4, 5
-    //
-    // click 2 -> progress = 3
-    // x  x  x
-    // 0, 1, 2, 3, 4, 5
-    //
-    // click 2 -> progress = 2
-    // x  x
-    // 0, 1, 2, 3, 4, 5
     const isActiveSegment = segmentNumber < currentProgress;
 
     const newProgress = isActiveSegment ? segmentNumber : segmentNumber + 1
