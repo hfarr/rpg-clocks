@@ -39,7 +39,17 @@ body > div {
   left: 50%;
 
   transform-origin: bottom left;
-  transform: rotate(calc( var(--angle) * var(--i)));
+  /* Note on math - with skewY, the "left" side of the div will be fixed
+     the right side will "turn" at the angle specified. So the goal is to cover the angular
+     distance between the right edge of one square nad the left edge of the next square.
+     We know the total angle between the two "left" edges is 360 / n, where n is number of 
+     segments, and we are already 90degrees of the way there because these are rectangular
+     divs. so the remaining distance to skew by is the full distance minus the distance
+     already covered.
+     Skew isn't precisely covered by my comment here, but that "right edge moves by
+     the angle" bit is a side effect that accomplishes what we need*/
+  transform: rotate(calc( var(--angle) * var(--i))) skewY(var(--skew) );
+  /* transform: rotate(calc( var(--angle) * var(--i))) skewY(calc(var(--angle) - 90deg )); */
 
   border: solid 1px red;
 }

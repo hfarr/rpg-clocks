@@ -24,6 +24,7 @@ const Clock = (props: ClockProps) => {
 
   const [ currentProgress, setCurrentProgress ] = React.useState(progress)
   const [ currentSegments, setSegments ] = React.useState(initialSegments)
+  const [ skewAngle, setSkewAngle ] = React.useState("0")
 
   const decreaseSegment = () => {
     if (currentSegments > MINIMUM_CLOCK_SEGMENTS) {
@@ -48,6 +49,8 @@ const Clock = (props: ClockProps) => {
     <div className="clock" style={{ display: 'flex', '--n': currentSegments } as React.CSSProperties} >
       {_.range(currentSegments).map(segmentNumber =>
         <Segment key={segmentNumber}
+          // urk
+          skewAngle={isNaN(parseInt(skewAngle)) ? '0' : skewAngle}
           segmentNumber={segmentNumber}
           active={currentProgress > segmentNumber}
           onClick={() => updateProgress(segmentNumber)} />
@@ -56,6 +59,10 @@ const Clock = (props: ClockProps) => {
     <div style={{ display: 'flex' }}>
       <button onClick={increaseSegments}>Add segment</button>
       <button onClick={decreaseSegment}>Remove segment</button>
+    </div>
+    <div style={{ display: 'flex' }}>
+      <input type="range" min="-360" max="360" value={skewAngle} onChange={e => setSkewAngle(e.currentTarget.value) }/>
+      <input type="text" value={skewAngle} onChange={e => setSkewAngle(e.currentTarget.value) }/>
     </div>
   </>
 }
