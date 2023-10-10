@@ -14,6 +14,38 @@ body > div {
   /* margin-left: auto; */
 }
 
-div {
-  /* background-color:thistle; */
+
+.clock {
+  --n: 1;
+  --angle: calc(360deg / var(--n));
+
+  counter-reset: count 0;
+
+  position: relative;
+
+  width: 15rem;
+  height: 15rem;
+  /* overflow: ; */
+
+  background-color: #aaa;
+
 }
+
+.segment {
+  counter-increment: count 1;
+
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+
+  transform-origin: bottom left;
+  transform: rotate(calc( var(--angle) * var(--i)));
+
+  border: solid 1px red;
+}
+
+.clock .segment {
+
+}
+
+

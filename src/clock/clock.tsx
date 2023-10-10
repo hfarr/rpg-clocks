@@ -3,7 +3,7 @@ import * as _ from "lodash"
 
 type SegmentProps = {
   active: boolean
-  // segmentNumber: number
+  segmentNumber: number
   onClick: () => void
 
   // temp
@@ -13,11 +13,13 @@ const Segment = (props: SegmentProps) => {
   const {
     active,
     sideLength = "50px",
+    segmentNumber,
     onClick,
   } = props
   const backgroundColor = active ? "#00aa55" : "#333"
   return <div data-cl={active} 
-    style={{ width: sideLength, height: sideLength, backgroundColor }}
+    className="segment"
+    style={{ width: sideLength, height: sideLength, backgroundColor, '--i': segmentNumber } as React.CSSProperties}
     onClick={onClick}>
   </div>
 }
@@ -31,16 +33,28 @@ type ClockProps = {
 }
 
 
+const MINIMUM_CLOCK_SEGMENTS = 2;
+
 const Clock = (props: ClockProps) => {
 
   const {
-    segments,
+    segments: initialSegments,
     progress,
     name = "Clock",
     color = "#"
   } = props
 
   const [ currentProgress, setCurrentProgress ] = React.useState(progress)
+  const [ currentSegments, setSegments ] = React.useState(initialSegments)
+
+  const decreaseSegment = () => {
+    if (currentSegments > MINIMUM_CLOCK_SEGMENTS) {
+      setSegments( currentSegments - 1)
+    }
+  }
+  const increaseSegments = () => {
+    setSegments( currentSegments + 1)
+  }
 
   const updateProgress = (segmentNumber: number) => {
 
@@ -63,13 +77,20 @@ const Clock = (props: ClockProps) => {
     setCurrentProgress(newProgress)
   }
 
-  return <div style={{ display: 'flex' }} >
-    {_.range(segments).map( segmentNumber => 
-      <Segment key={segmentNumber} 
-        active={currentProgress > segmentNumber} 
-        onClick={ () => updateProgress(segmentNumber) } /> 
-    )}
-  </div>
+  return <>
+    <div className="clock" style={{ display: 'flex', '--n': currentSegments } as React.CSSProperties} >
+      {_.range(currentSegments).map(segmentNumber =>
+        <Segment key={segmentNumber}
+          segmentNumber={segmentNumber}
+          active={currentProgress > segmentNumber}
+          onClick={() => updateProgress(segmentNumber)} />
+      )}
+    </div>
+    <div style={{ display: 'flex' }}>
+      <button onClick={increaseSegments}>Add segment</button>
+      <button onClick={decreaseSegment}>Remove segment</button>
+    </div>
+  </>
 }
 
 export default Clock
