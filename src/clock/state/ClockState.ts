@@ -1,19 +1,20 @@
 import { makeAutoObservable } from "mobx"
 import * as _ from 'lodash'
+import { Clock } from "../model";
 
 const MINIMUM_SEGMENTS = 3;
 
-class ClockState {
+class ClockState implements Clock {
 
   public name: string
   
-  private segments: number
-  private progress: number
+  private currentSegments: number
+  private currentProgress: number
 
   constructor() {
     this.name = ""
-    this.segments = 3
-    this.progress = 0
+    this.currentSegments = 3
+    this.currentProgress = 0
 
     makeAutoObservable(this, {}, { autoBind: true })
   }
@@ -21,51 +22,51 @@ class ClockState {
   static makeClock(name: string, segments: number, progress: number) {
     const clockState = new ClockState()
     clockState.name = name
-    clockState.segments = segments
-    clockState.progress = progress
+    clockState.currentSegments = segments
+    clockState.currentProgress = progress
     return clockState
   }
 
   private clampProgress() {
-    this.progress = _.clamp(this.progress, 0, this.segments)
+    this.currentProgress = _.clamp(this.currentProgress, 0, this.currentSegments)
   }
 
   get percentComplete(): number {
-    return this.progress / this.segments;
+    return this.currentProgress / this.currentSegments;
   }
 
   getSegments() {
-    return this.segments
+    return this.currentSegments
   }
 
 
   removeSegment() {
-    if (this.segments > MINIMUM_SEGMENTS) {
-      this.segments--;
+    if (this.currentSegments > MINIMUM_SEGMENTS) {
+      this.currentSegments--;
       
       this.clampProgress()
     }
   }
   addSegment() {
-    this.segments++;
+    this.currentSegments++;
   }
   updateProgress(segmentNumber: number) {
 
-    const isActiveSegment = segmentNumber < this.progress;
+    const isActiveSegment = segmentNumber < this.currentProgress;
 
     const newProgress = isActiveSegment ? segmentNumber : segmentNumber + 1
     console.log(`Current progress: ${this.currentProgress}. Click segment ${segmentNumber}. New progress: ${newProgress}`)
 
-    this.progress = newProgress
+    this.currentProgress = newProgress
     this.clampProgress()
 
   }
 
-  get currentProgress() {
-    return this.progress
+  get progress() {
+    return this.currentProgress
   }
-  get currentSegments() {
-    return this.segments
+  get segments() {
+    return this.currentSegments
   }
 }
 

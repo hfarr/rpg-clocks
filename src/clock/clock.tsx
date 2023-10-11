@@ -30,13 +30,13 @@ const Clock = observer( (props: ClockProps) => {
   const [ skewAngle, setSkewAngle ] = React.useState("0")
 
   return <>
-    <div className="clock" style={{ display: 'flex', '--n': clockState.currentSegments } as React.CSSProperties} >
-      {_.range(clockState.currentSegments).map(segmentNumber =>
+    <div className="clock" style={{ display: 'flex', '--n': clockState.segments } as React.CSSProperties} >
+      {_.range(clockState.segments).map(segmentNumber =>
         <Segment key={segmentNumber}
           // urk
           skewAngle={isNaN(parseInt(skewAngle)) ? '0' : skewAngle}
           segmentNumber={segmentNumber}
-          active={clockState.currentProgress > segmentNumber}
+          active={clockState.progress > segmentNumber}
           onClick={() => clockState.updateProgress(segmentNumber)} />
       )}
       <div className="disc">
