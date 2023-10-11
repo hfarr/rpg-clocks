@@ -85,7 +85,10 @@ body > div {
 }
 :hover ~ .segment[active] {
   background-color: #555;
-  /* background-color: #555; */
+}
+.segment[active]:hover {
+  /* this extra style needed because an element is not considered a subsequent sibling of itself */
+  background-color: #555;
 }
 
 .disc {
