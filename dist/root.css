@@ -19,24 +19,26 @@ body > div {
   --n: 1;
   --angle: calc(360deg / var(--n));
 
-  counter-reset: count 0;
-
   position: relative;
 
-  width: 15rem;
-  height: 15rem;
+  width: 8rem;
+  height: 8rem;
   /* overflow: ; */
+  border-radius: 50%;
+  overflow: hidden;
 
   background-color: #aaa;
 
 }
 
 .segment {
-  counter-increment: count 1;
 
   position: absolute;
   bottom: 50%;
   left: 50%;
+
+  width: 60%;
+  height: 60%;
 
   transform-origin: bottom left;
   /* Note on math - with skewY, the "left" side of the div will be fixed
@@ -48,10 +50,34 @@ body > div {
      already covered.
      Skew isn't precisely covered by my comment here, but that "right edge moves by
      the angle" bit is a side effect that accomplishes what we need*/
-  transform: rotate(calc( var(--angle) * var(--i))) skewY(var(--skew) );
-  /* transform: rotate(calc( var(--angle) * var(--i))) skewY(calc(var(--angle) - 90deg )); */
+  /* transform: rotate(calc( var(--angle) * var(--i))) skewY(var(--skew) ); */
+  transform: rotate(calc( var(--angle) * var(--i))) skewY(calc(var(--angle) - 90deg ));
 
-  border: solid 1px red;
+  /* border-left: solid 3px black; */
+}
+
+.disc {
+  position: absolute;
+
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  pointer-events: none;
+}
+
+.disc :first-child{
+  /* TODO really wanted the clock to be "transparent" in the middle via "inherit" but that won't work so long as the disc is two parts*/
+  background-color: black;
+
+  width: 72%;
+  height: 72%;
+
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .clock .segment {

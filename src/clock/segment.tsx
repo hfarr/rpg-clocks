@@ -21,8 +21,8 @@ const Segment = (props: SegmentProps) => {
   return <div data-cl={active} 
     className="segment"
     style={{ 
-      width: sideLength, 
-      height: sideLength, 
+      // width: sideLength, 
+      // height: sideLength, 
       backgroundColor, 
       '--i': segmentNumber ,
       '--skew': `${skewAngle}deg`,

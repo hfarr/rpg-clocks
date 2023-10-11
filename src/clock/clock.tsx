@@ -55,15 +55,18 @@ const Clock = (props: ClockProps) => {
           active={currentProgress > segmentNumber}
           onClick={() => updateProgress(segmentNumber)} />
       )}
+      <div className="disc">
+        <div></div>
+      </div>
     </div>
     <div style={{ display: 'flex' }}>
       <button onClick={increaseSegments}>Add segment</button>
       <button onClick={decreaseSegment}>Remove segment</button>
     </div>
-    <div style={{ display: 'flex' }}>
+    {/* <div style={{ display: 'flex' }}>
       <input type="range" min="-360" max="360" value={skewAngle} onChange={e => setSkewAngle(e.currentTarget.value) }/>
       <input type="text" value={skewAngle} onChange={e => setSkewAngle(e.currentTarget.value) }/>
-    </div>
+    </div> */}
   </>
 }
 
