@@ -3,6 +3,7 @@ import * as _ from 'lodash'
 import { ClockModel } from "../model";
 
 const MINIMUM_SEGMENTS = 3;
+const MAXIMUM_SEGMENTS = 20;
 
 class ClockState implements ClockModel {
 
@@ -12,7 +13,7 @@ class ClockState implements ClockModel {
   private currentProgress: number
 
   constructor() {
-    this.name = ""
+    this.name = undefined
     this.currentSegments = 3
     this.currentProgress = 0
 
@@ -24,15 +25,24 @@ class ClockState implements ClockModel {
     clockState.name = name
     clockState.currentSegments = segments
     clockState.currentProgress = progress
+    clockState.clampValues()
     return clockState
   }
 
-  private clampProgress() {
+  private clampValues() {
+    this.currentSegments = _.clamp(this.currentSegments, MINIMUM_SEGMENTS, MAXIMUM_SEGMENTS)
     this.currentProgress = _.clamp(this.currentProgress, 0, this.currentSegments)
   }
 
   get percentComplete(): number {
     return this.currentProgress / this.currentSegments;
+  }
+
+  updateData(newClockData: ClockModel) {
+    this.name = newClockData.name ?? ""
+    this.currentProgress = newClockData.progress
+    this.currentSegments = newClockData.segments
+    this.clampValues()
   }
 
   getSegments() {
@@ -44,11 +54,12 @@ class ClockState implements ClockModel {
     if (this.currentSegments > MINIMUM_SEGMENTS) {
       this.currentSegments--;
       
-      this.clampProgress()
+      this.clampValues()
     }
   }
   addSegment() {
     this.currentSegments++;
+    this.clampValues()
   }
   updateProgress(segmentNumber: number) {
 
@@ -58,7 +69,7 @@ class ClockState implements ClockModel {
     console.log(`Current progress: ${this.currentProgress}. Click segment ${segmentNumber}. New progress: ${newProgress}`)
 
     this.currentProgress = newProgress
-    this.clampProgress()
+    this.clampValues()
 
   }
 

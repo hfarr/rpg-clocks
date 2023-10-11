@@ -7,43 +7,47 @@ import { Segment } from "./segment"
 import ClockState from "./state/ClockState"
 
 type ClockProps = {
-  segments: number,
-  progress: number,
+  clockState: ClockState
+  // segments: number,
+  // progress: number,
   
-  name?: string,
-  color?: string
+  // name?: string,
+  // color?: string
 }
 
 const Clock = observer( (props: ClockProps) => {
 
   const {
-    segments: initialSegments,
+    segments,
     progress,
     name = "Clock",
-    color = "#"
-  } = props
+    addSegment,
+    removeSegment,
+    updateProgress,
+    // color = "#"
+  } = props.clockState
 
-  const [ clockState, setClockState ] = React.useState(ClockState.makeClock(name, initialSegments, progress))
+  // const [ clockState, setClockState ] = React.useState(ClockState.makeClock(name, segments, progress))
 
   const [ skewAngle, setSkewAngle ] = React.useState("0")
 
   return <>
-    <div className="clock" style={{ display: 'flex', '--n': clockState.segments } as React.CSSProperties} >
-      {_.range(clockState.segments).map(segmentNumber =>
+    <div className="clock" style={{ display: 'flex', '--n': segments } as React.CSSProperties} >
+      {_.range(segments).map(segmentNumber =>
         <Segment key={segmentNumber}
           // urk
           skewAngle={isNaN(parseInt(skewAngle)) ? '0' : skewAngle}
           segmentNumber={segmentNumber}
-          active={clockState.progress > segmentNumber}
-          onClick={() => clockState.updateProgress(segmentNumber)} />
+          active={progress > segmentNumber}
+          onClick={() => updateProgress(segmentNumber)} />
       )}
       <div className="disc">
         <div></div>
       </div>
     </div>
     <div style={{ display: 'flex' }}>
-      <button onClick={clockState.addSegment}>Add segment</button>
-      <button onClick={clockState.removeSegment}>Remove segment</button>
+      <button onClick={addSegment}>Add segment</button>
+      <button onClick={removeSegment}>Remove segment</button>
     </div>
     {/* <div style={{ display: 'flex' }}>
       <input type="range" min="-360" max="360" value={skewAngle} onChange={e => setSkewAngle(e.currentTarget.value) }/>
