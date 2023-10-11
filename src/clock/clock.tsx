@@ -14,8 +14,6 @@ type ClockProps = {
   color?: string
 }
 
-const MINIMUM_CLOCK_SEGMENTS = 3;
-
 const Clock = observer( (props: ClockProps) => {
 
   const {
