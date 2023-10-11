@@ -1,4 +1,5 @@
 import * as React from "react"
+import * as _ from "lodash"
 
 type SegmentProps = {
   active: boolean
@@ -17,13 +18,13 @@ const Segment = (props: SegmentProps) => {
     segmentNumber,
     onClick,
   } = props
-  const backgroundColor = active ? "#00aa55" : "#333"
-  return <div data-cl={active} 
+  const flags: Record<string, ""> = active ? { active: "" } : {}
+  return <div {...flags}
     className="segment"
     style={{ 
       // width: sideLength, 
       // height: sideLength, 
-      backgroundColor, 
+      // backgroundColor, 
       '--i': segmentNumber ,
       '--skew': `${skewAngle}deg`,
     } as React.CSSProperties}

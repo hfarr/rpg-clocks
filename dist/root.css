@@ -53,7 +53,42 @@ body > div {
   /* transform: rotate(calc( var(--angle) * var(--i))) skewY(var(--skew) ); */
   transform: rotate(calc( var(--angle) * var(--i))) skewY(calc(var(--angle) - 90deg ));
 
+  background-color: #333;
+
   /* border-left: solid 3px black; */
+}
+
+.segment[active] {
+  background-color: #00aa55;
+/* active ? "#00aa55" : "#333" */
+}
+/* 
+  when clock is hovered, set everything to "will change" 
+  then RESET to base color by targeting everything after
+  the hovered segment
+*/
+/* here, the :hover in the immediate descendant selector refers to the clock, and defaults all the segments to "will change"  */
+:hover > .segment {
+  background-color: #006600;
+  /* background-color: #555; */
+}
+:hover > .segment[active] {
+  background-color: #00aa55;
+}
+/* 
+  the hover in these subsequent sibling selectors refer to the *segment* being hovered on. so the :hover is referencing different things 
+  in different selectors. It works by "resetting" all of the segments that come after the hovered one to the "wont change" state, meaning
+  it gets the default color. it works slightly differently for the active vs. inactive segments
+*/
+:hover ~ .segment {
+  background-color: #333;
+}
+:hover ~ .segment[active] {
+  background-color: #555;
+}
+.segment[active]:hover {
+  /* this extra style needed because an element is not considered a subsequent sibling of itself */
+  background-color: #555;
 }
 
 .disc {
