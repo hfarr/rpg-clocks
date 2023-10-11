@@ -1,10 +1,10 @@
 import { makeAutoObservable } from "mobx"
 import * as _ from 'lodash'
-import { Clock } from "../model";
+import { ClockModel } from "../model";
 
 const MINIMUM_SEGMENTS = 3;
 
-class ClockState implements Clock {
+class ClockState implements ClockModel {
 
   public name: string
   

@@ -1,5 +1,5 @@
 
-export type Clock = {
+export type ClockModel = {
   name: string
   segments: number
   progress: number
