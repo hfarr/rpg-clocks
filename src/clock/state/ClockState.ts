@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx"
+import { makeAutoObservable, computed } from "mobx"
 import * as _ from 'lodash'
 import { ClockModel } from "../model";
 
@@ -44,11 +44,13 @@ class ClockState implements ClockModel {
     this.currentSegments = newClockData.segments
     this.clampValues()
   }
-
-  getSegments() {
-    return this.currentSegments
+  asObj(): ClockModel {
+    return {
+      name: this.name,
+      progress: this.currentProgress,
+      segments: this.currentSegments,
+    }
   }
-
 
   removeSegment() {
     if (this.currentSegments > MINIMUM_SEGMENTS) {

@@ -1,3 +1,4 @@
+import { observer } from "mobx-react"
 import * as React from "react"
 import Clock from "./clock/clock"
 import { ClockModel } from "./clock/model"
@@ -8,6 +9,11 @@ const Root = () => {
 
   const params = new URLSearchParams(location.search)
   console.log(params)
+  // TODO
+  // Fix this so Root can become observer, that we may update the url search params with the current data.
+  // do so such that as an observer re-rendering we don't replace all the data by the URL again
+  // let clockData = clockState.asObj();
+  // location.
   if (params.has('data')) {
     try {
       const clockData: Record<string, any> = JSON.parse(params.get('data'))
