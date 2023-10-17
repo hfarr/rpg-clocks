@@ -3,8 +3,14 @@ import * as React from "react"
 import Clock from "./clock/clock"
 import { ClockModel } from "./clock/model"
 import ClockState from "./clock/state/ClockState"
+import ClockStore from "./stores/ClockStore"
 
 const clockState = new ClockState()
+
+ClockStore.getClock().then( clockState.updateData )
+  .catch( err => {
+    console.log(err)
+  })
 
 const Root = observer(() => {
 
@@ -31,11 +37,15 @@ const Root = observer(() => {
     <div>
       <h1>Clocks</h1>
       {/* <Clock segments={3} progress={2} /> */}
-      <Clock clockState={clockState} />
+      { ClockStore.hasClock && 
+        <Clock clockState={clockState} />
+      }
     </div>
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <p>Clock progress: </p>
-      <p>{clockState.progress}/{clockState.segments}</p>
+      { ClockStore.hasClock && 
+        <p>{clockState.progress}/{clockState.segments}</p>
+      }
     </div>
   </div>
 })
