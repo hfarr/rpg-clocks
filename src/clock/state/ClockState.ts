@@ -30,6 +30,7 @@ class ClockState implements ClockModel {
   }
 
   private clampValues() {
+    // this.currentSegments = _.clamp(this.currentSegments, MINIMUM_SEGMENTS, this.currentSegments)
     this.currentSegments = _.clamp(this.currentSegments, MINIMUM_SEGMENTS, MAXIMUM_SEGMENTS)
     this.currentProgress = _.clamp(this.currentProgress, 0, this.currentSegments)
   }

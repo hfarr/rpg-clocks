@@ -4,8 +4,9 @@ import Clock from "./clock/clock"
 import { ClockModel } from "./clock/model"
 import ClockState from "./clock/state/ClockState"
 
-const Root = () => {
-  const clockState = new ClockState()
+const clockState = new ClockState()
+
+const Root = observer(() => {
 
   const params = new URLSearchParams(location.search)
   console.log(params)
@@ -30,7 +31,11 @@ const Root = () => {
       {/* <Clock segments={3} progress={2} /> */}
       <Clock clockState={clockState} />
     </div>
+    <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <p>Number of segments: </p>
+      <p>{clockState.progress}/{clockState.segments}</p>
+    </div>
   </div>
-}
+})
 
 export default Root
