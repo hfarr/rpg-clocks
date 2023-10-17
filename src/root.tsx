@@ -15,6 +15,7 @@ const Root = observer(() => {
   // do so such that as an observer re-rendering we don't replace all the data by the URL again
   // let clockData = clockState.asObj();
   // location.
+  /*
   if (params.has('data')) {
     try {
       const clockData: Record<string, any> = JSON.parse(params.get('data'))
@@ -24,6 +25,7 @@ const Root = observer(() => {
       console.warn('Could not parse JSON', err)
     }
   }
+  */
 
   return <div style={{width: '75vw'}}>
     <div>
