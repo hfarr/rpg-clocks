@@ -14,4 +14,10 @@ export const getClock = async () => {
   return result.data as ClockModel
 }
 
+export const putClock = async (clockData: ClockModel) => {
+
+  const result = await clockClient.put("/clock", clockData)
+  return result.data as ClockModel
+}
+
 
