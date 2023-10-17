@@ -34,7 +34,7 @@ const Root = observer(() => {
       <Clock clockState={clockState} />
     </div>
     <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <p>Number of segments: </p>
+      <p>Clock progress: </p>
       <p>{clockState.progress}/{clockState.segments}</p>
     </div>
   </div>
