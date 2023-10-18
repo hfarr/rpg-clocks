@@ -5,9 +5,12 @@ import { EVENT_SOURCE_URL } from "../../constants"
 // Use over HTTP/2 !!!!!!!!!!!!!!!!!
 const eventSource = new EventSource(EVENT_SOURCE_URL)
 
-eventSource.onmessage = (event) => {
+const listeners: Array<(e:string) => void> = []
+
+eventSource.onmessage = (event: MessageEvent<string>) => {
   // console.log("Event received from server", event)
   console.log("Server Event", event.data)
+  listeners.forEach( f => f(event.data) )
 }
 
 eventSource.addEventListener("updateclock", (event) => {
@@ -15,8 +18,8 @@ eventSource.addEventListener("updateclock", (event) => {
 })
 
 
-export const addListener = () => {
-  
+export const addListener = (func: (e:string) => void) => {
+  listeners.push(func);
 }
 
 console.log("Event Dispatcher online")

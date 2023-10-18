@@ -7,6 +7,8 @@ import { Segment } from "./segment"
 import ClockState from "./state/ClockState"
 import { putClock } from "../client/clockApi"
 
+import { addListener } from "./event/EventDispatcher"
+
 type ClockProps = {
   clockState: ClockState
   // segments: number,
@@ -14,6 +16,17 @@ type ClockProps = {
   
   // name?: string,
   // color?: string
+}
+
+const addListenerOnce = (func: (e: string) => void) => {
+  let called = false;
+  const justOnce = () => {
+    addListener(func)
+  }
+  if (!called) {
+    called = true
+    justOnce()
+  }
 }
 
 const Clock = observer( (props: ClockProps) => {
@@ -28,6 +41,10 @@ const Clock = observer( (props: ClockProps) => {
     // color = "#"
   } = props.clockState
 
+  addListenerOnce( (data) => {
+    if (data.toLowerCase() === "ping") return
+    props.clockState.updateData(JSON.parse(data))
+  })
   
   // TODO typing
   const changeWrap = (func: () => any) => () => {
