@@ -5,6 +5,10 @@ import { ClockModel } from "./clock/model"
 import ClockState from "./clock/state/ClockState"
 import ClockStore from "./stores/ClockStore"
 
+import * as EventDispatcher from "./clock/event/EventDispatcher"
+
+console.log(EventDispatcher)
+
 const clockState = new ClockState()
 
 ClockStore.getClock().then( clockState.updateData )
