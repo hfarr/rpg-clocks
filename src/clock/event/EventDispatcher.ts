@@ -6,7 +6,8 @@ import { EVENT_SOURCE_URL } from "../../constants"
 const eventSource = new EventSource(EVENT_SOURCE_URL)
 
 eventSource.onmessage = (event) => {
-  console.log("Event received from server", event)
+  // console.log("Event received from server", event)
+  console.log("Server Event", event.data)
 }
 
 eventSource.addEventListener("updateclock", (event) => {
