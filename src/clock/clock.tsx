@@ -7,7 +7,7 @@ import { Segment } from "./segment"
 import ClockState from "./state/ClockState"
 import { putClock } from "../client/clockApi"
 
-import { addListener } from "./event/EventDispatcher"
+import { addListener } from "../event/ServerSentEventDispatcher"
 
 type ClockProps = {
   clockState: ClockState

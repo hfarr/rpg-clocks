@@ -2,6 +2,7 @@
 // import { Axios } from "axios";
 import axios from "axios";
 import { ClockModel } from "../clock/model";
+import { ClockGroup } from "../model";
 
 const BASE_URL = "http://localhost:8081"
 
@@ -20,4 +21,8 @@ export const putClock = async (clockData: ClockModel) => {
   return result.data as ClockModel
 }
 
+export const getGlobalClockGroup = async () => {
+  const result = await clockClient.get('/rows')
+  return result.data as ClockGroup
+}
 

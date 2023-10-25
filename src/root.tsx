@@ -1,13 +1,16 @@
-import { observer } from "mobx-react"
+import { observer, useLocalObservable } from "mobx-react"
 import * as React from "react"
 import Clock from "./clock/clock"
 import { ClockModel } from "./clock/model"
 import ClockState from "./clock/state/ClockState"
 import ClockStore from "./stores/ClockStore"
+import ClockGroupStore from "./stores/ClockGroupStore"
+import { ClockGroup } from "./model"
 
-import * as EventDispatcher from "./clock/event/EventDispatcher"
+import { registerEventListener} from "./event/ServerSentEventDispatcher"
+import { makeObservable, observable, runInAction } from "mobx"
 
-console.log(EventDispatcher)
+// console.log(EventDispatcher)
 
 const clockState = new ClockState()
 
@@ -16,10 +19,27 @@ ClockStore.getClock().then( clockState.updateData )
     console.log(err)
   })
 
+// const clockGroup: {current?: ClockGroup} = observable({current: undefined})
+const clockGroup: any = observable({current: undefined})
+// React.useEffect( () => {
+  ClockGroupStore.getGlobalClockGroup().then( r => runInAction( () => clockGroup.current = r ) )
+    .catch( err => {
+      console.log(err)
+    })
+// }, [])
+
+registerEventListener("tableUpdate", e => runInAction( () => clockGroup.current = JSON.parse(e.data)))
+
+  // ClockGroupStore.getGlobalClockGroup().then( r => runInAction( () => clockGroup.current = r ) )
+  //   .catch( err => {
+  //     console.log(err)
+  //   })
+
 const Root = observer(() => {
 
   const params = new URLSearchParams(location.search)
   console.log(params)
+
   // TODO
   // Fix this so Root can become observer, that we may update the url search params with the current data.
   // do so such that as an observer re-rendering we don't replace all the data by the URL again
@@ -51,6 +71,9 @@ const Root = observer(() => {
         <p>{clockState.progress}/{clockState.segments}</p>
       }
     </div>
+    { clockGroup.current && <div>
+      <p>Clock group rows {clockGroup.current.length}</p>
+    </div> }
   </div>
 })
 

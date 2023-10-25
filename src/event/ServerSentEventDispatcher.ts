@@ -1,5 +1,5 @@
 
-import { EVENT_SOURCE_URL } from "../../constants"
+import { EVENT_SOURCE_URL } from "../constants"
 
 
 // Use over HTTP/2 !!!!!!!!!!!!!!!!!
@@ -20,11 +20,14 @@ eventSource.addEventListener("tableUpdate", (event) => {
   console.log("Update table event", event.data )
 })
 
+export const registerEventListener = (eventName: string, handler: (e: MessageEvent<any>) => any) => {
+  eventSource.addEventListener(eventName, handler)
+}
 
 export const addListener = (func: (e:string) => void) => {
   listeners.push(func);
 }
 
-console.log("Event Dispatcher online")
+console.log("Event Dispatcher online!")
 
 export default {}
