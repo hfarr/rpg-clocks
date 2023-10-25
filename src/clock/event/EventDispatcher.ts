@@ -16,6 +16,9 @@ eventSource.onmessage = (event: MessageEvent<string>) => {
 eventSource.addEventListener("updateclock", (event) => {
   console.log("Update clock event", event.data )
 })
+eventSource.addEventListener("tableUpdate", (event) => {
+  console.log("Update table event", event.data )
+})
 
 
 export const addListener = (func: (e:string) => void) => {
