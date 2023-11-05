@@ -1,5 +1,5 @@
-import { makeAutoObservable } from "mobx";
-import { getGlobalClockGroup } from "../client/clockApi";
+import { makeAutoObservable, toJS } from "mobx";
+import { getGlobalClockGroup, setGlobalClockGroup } from "../client/clockApi";
 import { ClockGroup, ClockRowState } from "../model";
 
 import { registerEventListener } from "../event"
@@ -48,6 +48,14 @@ class ClockGroupStore {
     }
 
     return this.globalClockGroup;
+  }
+
+  async publishGlobalClockGroup() {
+    if (!this.globalClockGroup) {
+      return
+    }
+    const payload: ClockGroup = toJS(this.globalClockRows)
+    return setGlobalClockGroup(payload)
   }
 
   get hasClocks() {

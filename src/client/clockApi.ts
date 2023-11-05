@@ -26,3 +26,8 @@ export const getGlobalClockGroup = async () => {
   return result.data as ClockGroup
 }
 
+export const setGlobalClockGroup = async (payload: ClockGroup) => {
+  const result = await clockClient.put('/rows', payload)
+  return result.data as ClockGroup
+}
+

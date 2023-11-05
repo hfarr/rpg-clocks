@@ -6,6 +6,7 @@ import { observer } from "mobx-react"
 import { Segment } from "./segment"
 import ClockState from "./state/ClockState"
 import { putClock } from "../client/clockApi"
+import { clockGroupStore } from "../stores"
 
 import { addListener } from "../event/ServerSentEventDispatcher"
 
@@ -49,7 +50,9 @@ const Clock = observer( (props: ClockProps) => {
   // TODO typing
   const changeWrap = (func: () => any) => () => {
     func();
-    putClock(props.clockState.asObj())
+    // putClock(props.clockState.asObj())
+    clockGroupStore.publishGlobalClockGroup()
+
   }
 
   // const [ clockState, setClockState ] = React.useState(ClockState.makeClock(name, segments, progress))
