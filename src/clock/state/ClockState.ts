@@ -29,6 +29,10 @@ class ClockState implements ClockModel {
     return clockState
   }
 
+  static makeClockOfModel(clockModel: ClockModel) {
+    return ClockState.makeClock(clockModel.name ?? "", clockModel.segments, clockModel.progress)
+  }
+
   private clampValues() {
     // this.currentSegments = _.clamp(this.currentSegments, MINIMUM_SEGMENTS, this.currentSegments)
     this.currentSegments = _.clamp(this.currentSegments, MINIMUM_SEGMENTS, MAXIMUM_SEGMENTS)
