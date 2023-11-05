@@ -1,0 +1,105 @@
+
+.clock {
+  --n: 1;
+  --angle: calc(360deg / var(--n));
+
+  position: relative;
+
+  width: 8rem;
+  height: 8rem;
+  /* overflow: ; */
+  border-radius: 50%;
+  overflow: hidden;
+
+  background-color: #aaa;
+
+}
+
+.segment {
+
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+
+  width: 60%;
+  height: 60%;
+
+  transform-origin: bottom left;
+  /* Note on math - with skewY, the "left" side of the div will be fixed
+     the right side will "turn" at the angle specified. So the goal is to cover the angular
+     distance between the right edge of one square nad the left edge of the next square.
+     We know the total angle between the two "left" edges is 360 / n, where n is number of 
+     segments, and we are already 90degrees of the way there because these are rectangular
+     divs. so the remaining distance to skew by is the full distance minus the distance
+     already covered.
+     Skew isn't precisely covered by my comment here, but that "right edge moves by
+     the angle" bit is a side effect that accomplishes what we need*/
+  /* transform: rotate(calc( var(--angle) * var(--i))) skewY(var(--skew) ); */
+  transform: rotate(calc( var(--angle) * var(--i))) skewY(calc(var(--angle) - 90deg ));
+
+  background-color: #333;
+
+  /* border-left: solid 3px black; */
+}
+
+.segment[active] {
+  background-color: #00aa55;
+/* active ? "#00aa55" : "#333" */
+}
+/* 
+  when clock is hovered, set everything to "will change" 
+  then RESET to base color by targeting everything after
+  the hovered segment
+*/
+/* here, the :hover in the immediate descendant selector refers to the clock, and defaults all the segments to "will change"  */
+:hover > .segment {
+  background-color: #006600;
+  /* background-color: #555; */
+}
+:hover > .segment[active] {
+  background-color: #00aa55;
+}
+/* 
+  the hover in these subsequent sibling selectors refer to the *segment* being hovered on. so the :hover is referencing different things 
+  in different selectors. It works by "resetting" all of the segments that come after the hovered one to the "wont change" state, meaning
+  it gets the default color. it works slightly differently for the active vs. inactive segments
+*/
+:hover ~ .segment {
+  background-color: #333;
+}
+:hover ~ .segment[active] {
+  background-color: #555;
+}
+.segment[active]:hover {
+  /* this extra style needed because an element is not considered a subsequent sibling of itself */
+  background-color: #555;
+}
+
+.disc {
+  position: absolute;
+
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  pointer-events: none;
+}
+
+.disc :first-child{
+  /* TODO really wanted the clock to be "transparent" in the middle via "inherit" but that won't work so long as the disc is two parts*/
+  background-color: black;
+
+  width: 72%;
+  height: 72%;
+
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* .clockRow .clock { */
+.clockRow > div {
+  display: inline-block;
+}

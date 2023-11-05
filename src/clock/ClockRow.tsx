@@ -10,9 +10,9 @@ type ClockRowProps = {
 
 const ClockRow = observer(({ clockRow }: ClockRowProps) => {
 
-  return <div>
+  return <div className="clockRow">
     <p>{clockRow.name}</p>
-    {clockRow.clocks.map( c => <Clock clockState={c} />)}
+    {clockRow.clocks.map( (c,i) => <div><Clock key={i} clockState={c} /></div>)}
   </div>
 
 })

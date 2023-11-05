@@ -23,7 +23,7 @@ const TablePage = observer((props: TablePageProps) => {
   console.log("Table Page: Clock rows: ", clockRows)
 
   return <div>
-    {clockRows.map( clRow => <ClockRow clockRow={clRow}/>)}
+    {clockRows.map( clRow => <ClockRow key={clRow.name} clockRow={clRow}/>)}
 
   </div>
 })
