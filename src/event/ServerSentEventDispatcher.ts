@@ -1,6 +1,8 @@
 
 import { EVENT_SOURCE_URL } from "../constants"
 
+// TODO (or TO think about) best way to organize event handling. Its a bit like setting up keyboard listeners I imagine?
+export type ClockEvent = "updateclock" | "tableUpdate"
 
 // Use over HTTP/2 !!!!!!!!!!!!!!!!!
 const eventSource = new EventSource(EVENT_SOURCE_URL)
@@ -20,7 +22,7 @@ eventSource.addEventListener("tableUpdate", (event) => {
   console.log("Update table event", event.data )
 })
 
-export const registerEventListener = (eventName: string, handler: (e: MessageEvent<any>) => any) => {
+export const registerEventListener = (eventName: ClockEvent, handler: (e: MessageEvent<any>) => any) => {
   eventSource.addEventListener(eventName, handler)
 }
 

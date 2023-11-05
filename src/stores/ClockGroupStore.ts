@@ -11,27 +11,40 @@ class ClockGroupStore {
 
   // TODO won't be just one
   private globalClockGroup?: ClockGroup
+  // TODO make computed?
   globalClockRows?: ClockRowState[]
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true })
   }
 
-  updateGlobalClockGroup(clockGroup: ClockGroup) {
-    console.log("Received table update event.")
+  private establishState(clockGroup: ClockGroup) {
     this.globalClockGroup = clockGroup
-  }
-
-  async loadGlobalClockGroup() {
-    if (!this.globalClockGroup) {
-      // fetch from server
-      this.globalClockGroup = await getGlobalClockGroup()
-      this.globalClockRows = this.globalClockGroup.map(
+    this.globalClockRows = this.globalClockGroup.map(
         row => ({
           ...row,
           clocks: row.clocks.map(ClockState.makeClockOfModel)
         })
       )
+  }
+
+  updateGlobalClockGroup(clockGroup: ClockGroup) {
+    console.log("Received table update event.")
+    this.establishState(clockGroup)
+
+  }
+
+  async loadGlobalClockGroup() {
+    if (!this.globalClockGroup) {
+      // fetch from server
+      this.establishState(await getGlobalClockGroup())
+      // this.globalClockGroup = await getGlobalClockGroup()
+      // this.globalClockRows = this.globalClockGroup.map(
+      //   row => ({
+      //     ...row,
+      //     clocks: row.clocks.map(ClockState.makeClockOfModel)
+      //   })
+      // )
     }
 
     return this.globalClockGroup;
@@ -45,8 +58,13 @@ class ClockGroupStore {
 
 const singletonStore = new ClockGroupStore();
 
+const handleTableEvent = (data: string) => {
+  // TODO validate data
+  singletonStore.updateGlobalClockGroup(JSON.parse(data))
+}
+
 // TODO I think I prefer having event registration somewhere else
-registerEventListener(TABLE_EVENT_NAME, e => singletonStore.updateGlobalClockGroup(e.data) )
+registerEventListener(TABLE_EVENT_NAME, e => handleTableEvent(e.data) )
 
 console.log("ClockGroupStore online")
 export const clockGroupStore = singletonStore

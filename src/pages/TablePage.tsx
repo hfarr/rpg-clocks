@@ -8,6 +8,8 @@ type TablePageProps = {
 
 }
 
+// TODO Register the listeners here? this being view and controller in a way. Or a view, and the elements on the page are the controllers.
+
 const TablePage = observer((props: TablePageProps) => {
 
   React.useEffect( () => {

@@ -4,7 +4,6 @@ import * as _ from "lodash"
 type SegmentProps = {
   active: boolean
   segmentNumber: number
-  skewAngle: string
   onClick: () => void
 
   // temp
@@ -14,7 +13,6 @@ const Segment = (props: SegmentProps) => {
   const {
     active,
     sideLength = "50px",
-    skewAngle = '0',
     segmentNumber,
     onClick,
   } = props
@@ -26,7 +24,6 @@ const Segment = (props: SegmentProps) => {
       // height: sideLength, 
       // backgroundColor, 
       '--i': segmentNumber ,
-      '--skew': `${skewAngle}deg`,
     } as React.CSSProperties}
     onClick={onClick}>
   </div>
