@@ -21,13 +21,19 @@ const TablePage = observer((props: TablePageProps) => {
   }
 
   const clockRows = clockGroupStore.globalClockRows
+  const [progress, totalSegments] = clockGroupStore.totalProgress
 
   console.log("Table Page: Clock rows: ", clockRows)
 
-  return <div>
-    {clockRows.map( clRow => <ClockRow key={clRow.name} clockRow={clRow}/>)}
+  return <>
+    <div>
+      Progress {progress}/{totalSegments}
+    </div>
+    <div>
+      {clockRows.map(clRow => <ClockRow key={clRow.name} clockRow={clRow} />)}
 
-  </div>
+    </div>
+  </>
 })
 
 export default TablePage

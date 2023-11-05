@@ -54,6 +54,15 @@ class ClockGroupStore {
     return Boolean(this.globalClockRows)
   }
 
+  get totalProgress(): [number, number] {
+    return this.globalClockRows.reduceRight( 
+      ([prog, seg], cs) => { 
+          const [curProg,curSeg] = cs.clocks.reduceRight( ([ prog, seg ], c) => [ prog + c.progress, seg + c.segments ], [0, 0]) 
+          return [prog + curProg, seg + curSeg]
+        }
+      , [0,0])
+  }
+
 }
 
 const singletonStore = new ClockGroupStore();
