@@ -9,13 +9,13 @@ class ClockState implements ClockModel {
 
   public name: string
   
-  private currentSegments: number
-  private currentProgress: number
+  public segments: number
+  public progress: number
 
   constructor() {
     this.name = undefined
-    this.currentSegments = 3
-    this.currentProgress = 0
+    this.segments = 3
+    this.progress = 0
 
     makeAutoObservable(this, {}, { autoBind: true })
   }
@@ -23,8 +23,8 @@ class ClockState implements ClockModel {
   static makeClock(name: string, segments: number, progress: number) {
     const clockState = new ClockState()
     clockState.name = name
-    clockState.currentSegments = segments
-    clockState.currentProgress = progress
+    clockState.segments = segments
+    clockState.progress = progress
     clockState.clampValues()
     return clockState
   }
@@ -35,57 +35,51 @@ class ClockState implements ClockModel {
 
   private clampValues() {
     // this.currentSegments = _.clamp(this.currentSegments, MINIMUM_SEGMENTS, this.currentSegments)
-    this.currentSegments = _.clamp(this.currentSegments, MINIMUM_SEGMENTS, MAXIMUM_SEGMENTS)
-    this.currentProgress = _.clamp(this.currentProgress, 0, this.currentSegments)
+    this.segments = _.clamp(this.segments, MINIMUM_SEGMENTS, MAXIMUM_SEGMENTS)
+    this.progress = _.clamp(this.progress, 0, this.segments)
   }
 
   get percentComplete(): number {
-    return this.currentProgress / this.currentSegments;
+    return this.progress / this.segments;
   }
 
   updateData(newClockData: ClockModel) {
     this.name = newClockData.name ?? ""
-    this.currentProgress = newClockData.progress
-    this.currentSegments = newClockData.segments
+    this.progress = newClockData.progress
+    this.segments = newClockData.segments
     this.clampValues()
   }
   asObj(): ClockModel {
     return {
       name: this.name,
-      progress: this.currentProgress,
-      segments: this.currentSegments,
+      progress: this.progress,
+      segments: this.segments,
     }
   }
 
   removeSegment() {
-    if (this.currentSegments > MINIMUM_SEGMENTS) {
-      this.currentSegments--;
+    if (this.segments > MINIMUM_SEGMENTS) {
+      this.segments--;
       
       this.clampValues()
     }
   }
   addSegment() {
-    this.currentSegments++;
+    this.segments++;
     this.clampValues()
   }
   updateProgress(segmentNumber: number) {
 
-    const isActiveSegment = segmentNumber < this.currentProgress;
+    const isActiveSegment = segmentNumber < this.progress;
 
     const newProgress = isActiveSegment ? segmentNumber : segmentNumber + 1
-    console.log(`Current progress: ${this.currentProgress}. Click segment ${segmentNumber}. New progress: ${newProgress}`)
+    console.log(`Current progress: ${this.progress}. Click segment ${segmentNumber}. New progress: ${newProgress}`)
 
-    this.currentProgress = newProgress
+    this.progress = newProgress
     this.clampValues()
 
   }
 
-  get progress() {
-    return this.currentProgress
-  }
-  get segments() {
-    return this.currentSegments
-  }
 }
 
 export default ClockState
